@@ -1,0 +1,36 @@
+road
+128 128 128
+ignore
+0 0 0
+truck
+0 255 0
+person
+0 0 255
+trafficcone
+255 0 0
+grass
+128 255 128
+fence
+128 128 255
+static
+255 128 128
+container
+128 255 0
+pole
+128 0 255
+tower
+255 128 0
+stone
+0 128 255
+pillar
+255 0 128
+qc
+255 255 128
+crane
+255 128 255
+obs
+128 255 255
+ship
+255 255 0
+sky
+255 0 255
