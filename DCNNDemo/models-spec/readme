@@ -1,0 +1,8 @@
+0. requirements
+   a. tensorflow-1.4
+   b. torch-0.4.0
+   c. torchvision-0.1.8
+   d. opencv
+
+sh runme.sh
+

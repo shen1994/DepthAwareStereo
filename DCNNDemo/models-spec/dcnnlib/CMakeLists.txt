@@ -1,0 +1,37 @@
+cmake_minimum_required(VERSION 3.0 FATAL_ERROR)
+project("dcnnlib")
+
+## python
+list(APPEND CMAKE_MODULE_PATH "${CMAKE_CURRENT_SOURCE_DIR}/cmake")
+set(PYTHON_OPTIONS "2.X" "3.X")
+set(PYTHON_DESIRED_VERSION "3.X" CACHE STRING "Choose which python version to use, options are: ${PYTHON_OPTIONS}.")
+set_property(CACHE PYTHON_DESIRED_VERSION PROPERTY STRINGS ${PYTHON_OPTIONS})
+include("DetectPython")
+if (${PYTHON_DESIRED_VERSION} STREQUAL "2.X")
+    set(PYTHON_INCLUDE_DIRS ${PYTHON2_INCLUDE_DIR} ${PYTHON2_INCLUDE_DIR2} ${PYTHON2_NUMPY_INCLUDE_DIRS})
+    set(PYTHON_NUMPY_INCLUDE_DIRS ${PYTHON2_NUMPY_INCLUDE_DIRS})
+    set(PYTHON_LIBRARIES ${PYTHON2_LIBRARY})
+    set(PYTHON_EXECUTABLE ${PYTHON2_EXECUTABLE})
+    set(PYTHON_PACKAGES_PATH ${PYTHON2_PACKAGES_PATH})
+else ()
+    set(PYTHON_INCLUDE_DIRS ${PYTHON3_INCLUDE_DIR} ${PYTHON3_INCLUDE_DIR2} ${PYTHON3_NUMPY_INCLUDE_DIRS})
+    set(PYTHON_NUMPY_INCLUDE_DIRS ${PYTHON3_NUMPY_INCLUDE_DIRS})
+    set(PYTHON_LIBRARIES ${PYTHON3_LIBRARY})
+    set(PYTHON_EXECUTABLE ${PYTHON3_EXECUTABLE})
+    set(PYTHON_PACKAGES_PATH ${PYTHON3_PACKAGES_PATH})
+endif ()
+
+## opencv
+find_package(OpenCV REQUIRED)
+
+add_library(dcnnlib SHARED dcnnmodule.cpp)
+target_link_libraries(dcnnlib ${OpenCV_LIBS})
+target_include_directories(dcnnlib  PUBLIC ${PYTHON_INCLUDE_DIRS})
+target_link_libraries(dcnnlib ${PYTHON_LIBRARIES})
+# include_directories(dcnnlib /usr/local/lib/python3.5/dist-packages/numpy/core/include)
+# include_directories(dcnnlib /usr/include/python3.5m)
+# target_link_libraries(dcnnlib /usr/lib/x86_64-linux-gnu/libpython3.5m.so)
+include_directories(dcnnlib pyboostcvconverter/include/pyboostcvconverter)
+link_libraries(dcnnlib pyboostcvconverter/build)
+
+set_property(TARGET dcnnlib PROPERTY CXX_STANDARD 11)
